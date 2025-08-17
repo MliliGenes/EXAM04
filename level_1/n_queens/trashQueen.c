@@ -10,15 +10,18 @@ void print_board(int *board, int n)
 
 int is_safe(int *board, int n, int row, int col)
 {
-	for (int i = 0; i < row; i++)
-		if (board[i] == col)
+	for (int row_i = 0; row_i < row; row_i++)
+		if (board[row_i] == col)
 			return (0);
+
 	for (int i = row, j = col; i >= 0 && j >= 0; i--, j--)
 		if (board[i] == j)
 			return (0);
+
 	for (int i = row, j = col; i >= 0 && j < n; i--, j++)
 		if (board[i] == j)
 			return (0);
+
 	return (1);
 }
 
