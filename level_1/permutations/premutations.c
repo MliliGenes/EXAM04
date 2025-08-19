@@ -5,6 +5,7 @@ int get_next_permutation(char *perm, int n)
     int i = n - 1;
     while (i > 0 && perm[i - 1] >= perm[i])
         i--;
+
     if (i <= 0)
         return (0);
 
@@ -21,7 +22,7 @@ int get_next_permutation(char *perm, int n)
 
     i++;
     j = n;
-    while (i < j)
+    while (i < j) 
     {
         tmp = perm[i - 1];
         perm[i - 1] = perm[j - 1];
@@ -61,8 +62,8 @@ int main(int ac, char *av[])
 
 
 
-    sort_char_arr(perm, n);
-    do
-        printf("%s\n", perm);
+    // sort_char_arr(perm, n);
+    printf("%s\n", perm);
     while (get_next_permutation(perm, n));
+        printf("%s\n", perm);
 }
