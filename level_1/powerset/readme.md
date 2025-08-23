@@ -155,3 +155,52 @@ Notice how the recursion **explores every possible combination**:
 - [] → sum=0 (too small)
 
 The recursion naturally generates all 2³ = 8 possible subsets and checks each one!
+
+
+
+
+Call 1: find_subsets(set=[1,2,2], subset=[], subset_size=0, start_index=0, target=4)
+│ current_sum = 0, 0 < 4, continue exploring
+│
+├─ Loop i=0: Try element set[0] = 1
+│  │ Check condition: i=0, start_index=0, so i > start_index? NO → Proceed
+│  │ subset[0] = 1 → subset=[1]
+│  └─ Call 2: find_subsets(subset=[1], subset_size=1, start_index=1, target=4)
+│     │ current_sum = 1, 1 < 4, continue exploring
+│     │
+│     ├─ Loop i=1: Try element set[1] = 2 (first 2)
+│     │  │ Check condition: i=1, start_index=1, so i > start_index? NO → Proceed
+│     │  │ subset[1] = 2 → subset=[1,2]
+│     │  └─ Call 3: find_subsets(subset=[1,2], subset_size=2, start_index=2, target=4)
+│     │     │ current_sum = 3, 3 < 4, continue exploring
+│     │     │
+│     │     └─ Loop i=2: Try element set[2] = 2 (second 2)
+│     │        │ Check condition: i=2, start_index=2, so i > start_index? NO → Proceed
+│     │        │ subset[2] = 2 → subset=[1,2,2]
+│     │        └─ Call 4: find_subsets(subset=[1,2,2], subset_size=3, start_index=3, target=4)
+│     │           │ current_sum = 5, 5 > 4, STOP
+│     │
+│     └─ Loop i=2: Try element set[2] = 2 (second 2)
+│        │ Check condition: i=2, start_index=1, so i > start_index? YES
+│        │ Check condition: set[2] == set[1]? (2 == 2) YES
+│        │ 🚫 SKIP THIS ITERATION (continue) ← DUPLICATE PREVENTION!
+│
+├─ Loop i=1: Try element set[1] = 2 (first 2)
+│  │ Check condition: i=1, start_index=0, so i > start_index? YES
+│  │ Check condition: set[1] == set[0]? (2 == 1) NO → Proceed
+│  │ subset[0] = 2 → subset=[2]
+│  └─ Call 5: find_subsets(subset=[2], subset_size=1, start_index=2, target=4)
+│     │ current_sum = 2, 2 < 4, continue exploring
+│     │
+│     └─ Loop i=2: Try element set[2] = 2 (second 2)
+│        │ Check condition: i=2, start_index=2, so i > start_index? NO → Proceed
+│        │ subset[1] = 2 → subset=[2,2]
+│        └─ Call 6: find_subsets(subset=[2,2], subset_size=2, start_index=3, target=4)
+│           │ current_sum = 4, 4 == 4 ✅ PRINT [2,2]
+│
+└─ Loop i=2: Try element set[2] = 2 (second 2)
+   │ Check condition: i=2, start_index=0, so i > start_index? YES
+   │ Check condition: set[2] == set[1]? (2 == 2) YES  
+   │ 🚫 SKIP THIS ITERATION (continue) ← DUPLICATE PREVENTION!
+
+OUTPUT: [2,2] (NO DUPLICATES!)

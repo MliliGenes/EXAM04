@@ -28,17 +28,12 @@ void find_subsets(int *set, int set_size, int *subset, int subset_size,
     // If we found the target sum, print the subset
     if (current_sum == target_sum) {
         print_subset(subset, subset_size);
-        // return;
-    }
-    
-    // If sum is already too big, no point continuing
-    if (current_sum > target_sum) {
         return;
     }
     
     // Loop through remaining elements starting from start_index
     for (int i = start_index; i < set_size; i++) {
-
+        // Skip Duplications
         if (i > start_index && set[i] == set[i - 1]) 
             continue;
 
