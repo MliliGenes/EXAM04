@@ -10,28 +10,45 @@ void print_subset(int *subset, int subset_size) {
     printf("\n");
 }
 
+// Quick function to calculate sum of current subset
+int calculate_sum(int *subset, int subset_size) {
+    int sum = 0;
+    for (int i = 0; i < subset_size; i++) {
+        sum += subset[i];
+    }
+    return sum;
+}
+
 void find_subsets(int *set, int set_size, int *subset, int subset_size, 
-                  int index, int current_sum, int target_sum) {
+                  int start_index, int target_sum) {
+    
+    // Calculate current sum
+    int current_sum = calculate_sum(subset, subset_size);
     
     // If we found the target sum, print the subset
     if (current_sum == target_sum) {
         print_subset(subset, subset_size);
+        // return;
+    }
+    
+    // If sum is already too big, no point continuing
+    if (current_sum > target_sum) {
         return;
     }
     
-    // If we've gone through all elements or sum is too big, stop
-    if (index >= set_size || current_sum > target_sum) {
-        return;
+    // Loop through remaining elements starting from start_index
+    for (int i = start_index; i < set_size; i++) {
+
+        if (i > start_index && set[i] == set[i - 1]) 
+            continue;
+
+        // Include current element set[i] in the subset
+        subset[subset_size] = set[i];
+        
+        // Recursively find subsets starting from next element (i+1)
+        find_subsets(set, set_size, subset, subset_size + 1, 
+                    i + 1, target_sum);
     }
-    
-    // Option 1: Include current element
-    subset[subset_size] = set[index];
-    find_subsets(set, set_size, subset, subset_size + 1, 
-                 index + 1, current_sum + set[index], target_sum);
-    
-    // Option 2: Don't include current element
-    find_subsets(set, set_size, subset, subset_size, 
-                 index + 1, current_sum, target_sum);
 }
 
 int main(int argc, char *argv[]) {
@@ -58,7 +75,7 @@ int main(int argc, char *argv[]) {
         set[i] = atoi(argv[i + 2]);
     }
 
-    find_subsets(set, set_size, subset, 0, 0, 0, target_sum);
+    find_subsets(set, set_size, subset, 0, 0, target_sum);
     
     free(set);
     free(subset);
