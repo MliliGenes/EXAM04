@@ -117,8 +117,6 @@ node *parse_expr(char **s)
             return (NULL);
         }
         
-        
-        
         node n = {ADD, 0, left, right};
         left = new_node(n);
         if (!left)
@@ -161,16 +159,16 @@ int main(int ac, char **av)
 {
     if (ac != 2)
         return (1);
-                char *s = av[1]; // +
-                node *tree = parse_expr(&s); // +
-                if (!tree || *s)
-                { // +
-                    if (*s)
-                        unexpected(*s);
-                    else
-                        unexpected(0);
-                    return (1);
-                } // +
+    char *s = av[1]; // +
+    node *tree = parse_expr(&s); // +
+    if (!tree || *s)
+    { // +
+        if (*s)
+            unexpected(*s);
+        else
+            unexpected(0);
+        return (1);
+    } // +
     printf("%d\n", eval_tree(tree));
     destroy_tree(tree);
 }

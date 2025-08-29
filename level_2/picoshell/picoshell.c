@@ -21,10 +21,7 @@ int picoshell(char **cmds[])
         pid = fork();
         if(pid == -1)
             return 1;
-
-
-
-
+            
         if (pid == 0)
         {
             if(prv_fd != -1)
@@ -40,9 +37,6 @@ int picoshell(char **cmds[])
             execvp(cmds[i][0], cmds[i]);
             return 1;
         }
-
-
-
     
         while (wait(&st) == -1)
         {
@@ -63,7 +57,7 @@ int picoshell(char **cmds[])
 
 int main()
 {
-    char *c[] = {"ls", NULL};
+    char *c[2] = {"ls", NULL};
     char **cmds[] = {c, NULL};
     printf("<%d>\n", picoshell(cmds));
 }
