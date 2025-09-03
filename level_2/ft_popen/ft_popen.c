@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/wait.h>
 
 int	ft_popen(const char *file, char *const argv[], char type)
 {
@@ -13,10 +14,12 @@ int	ft_popen(const char *file, char *const argv[], char type)
 	pipe(fd);
 
 
-	
+	pid_t pid;
 	if (type == 'r')
 	{
-		if (fork() == 0)
+		pid = fork();
+		if (pid == -1) return -1;
+		if (pid  == 0)
 		{
 			dup2(fd[1], 1);
 			close(fd[0]);
@@ -25,11 +28,14 @@ int	ft_popen(const char *file, char *const argv[], char type)
 			exit (-1);
 		}
 		close(fd[1]);
+		if (waitpid(pid, 0, 0) == -1) return -1;
 		return (fd[0]);
 	}
 	if (type == 'w')
 	{
-		if (fork() == 0)
+		pid = fork();
+		if (pid == -1) return -1;
+		if (pid== 0)
 		{
 			dup2(fd[0], 0);
 			close(fd[0]);
@@ -38,8 +44,10 @@ int	ft_popen(const char *file, char *const argv[], char type)
 			exit (-1);
 		}
 		close(fd[0]);
+		if (waitpid(pid, 0, 0) == -1) return -1;
 		return (fd[1]);
 	}
+	
 	return -1;
 }
 

@@ -41,13 +41,12 @@ int	sandbox(void (*f)(void), unsigned int timeout, bool verbose)
 
 	alarm(timeout);
 	int st;
-	pid_t r = waitpid(pid, &st, 0);
-	if (r == -1)
+	if (waitpid(pid, &st, 0) == -1)
 	{
 		if (errno == EINTR)
 		{
 			kill(pid, SIGKILL);
-			waitpid(pid, NULL, 0);
+			// waitpid(pid, NULL, 0);
 			if (verbose)
 				printf("Bad function: timed out after %d seconds\n", timeout);
 			return (0);
@@ -101,6 +100,7 @@ void fun3() {
 
 void fun0() {
 	printf("wow\n");
+	while (1);
 }
 
 int main()

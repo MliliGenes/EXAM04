@@ -19,10 +19,11 @@ int picoshell(char **cmds[]) {
 
     while (cmds[cmd_index]) {
 
+        
+        
         if (cmds[cmd_index + 1]) {
             if (pipe(fds) == -1) return -1; 
         }
-
         pid = fork();
         if (pid == -1) return -1;
 
